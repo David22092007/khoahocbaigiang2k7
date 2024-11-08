@@ -32,8 +32,8 @@
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.5);
         }
-        /* Style cho nút quay lại */
-        .back-button {
+        /* Style cho nút quay lại và nút tiếp theo */
+        .back-button, .next-button {
             background-color: #333;
             color: aqua;
             border: none;
@@ -43,7 +43,7 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .back-button:hover {
+        .back-button:hover, .next-button:hover {
             background-color: #555;
         }
     </style>
@@ -58,6 +58,9 @@
         
         <!-- Nút quay lại trang chủ -->
         <button class="back-button" onclick="window.location.href='index.html'">Quay lại trang chủ</button>
+        
+        <!-- Nút điều hướng tới bài tiếp theo -->
+        <button class="next-button" id="nextButton">Bài Tiếp Theo</button>
     </div>
 
     <script>
@@ -68,7 +71,7 @@
 
         const chapter = getQueryParam("chapter");
         const lesson = getQueryParam("lesson");
-        const part = getQueryParam("part");
+        const part = parseInt(getQueryParam("part")); // Chuyển đổi thành số nguyên
         const videoType = getQueryParam("videoType");
 
         let videoUrl = `https://chuvanbien.vn/upload_images/files/Vat_li_12_Moi/Giai_doan_2/I_BO_KNTT/Chuong_${chapter}/Bai_${lesson}/`;
@@ -83,6 +86,13 @@
 
         document.getElementById("videoSource").src = videoUrl;
         document.getElementById("videoPlayer").load();
+
+        // Điều hướng tới bài tiếp theo
+        document.getElementById("nextButton").onclick = function() {
+            const nextPart = part + 1; // Tăng phần lên 1
+            const nextUrl = `video.html?chapter=${chapter}&lesson=${lesson}&part=${nextPart}&videoType=${videoType}`;
+            window.location.href = nextUrl; // Điều hướng tới URL mới
+        };
     </script>
 </body>
 </html>
