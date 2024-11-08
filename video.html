@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem Video Bài Giảng - Giáng sinh</title>
+    <style>
+        /* Cài đặt nền đen và chữ màu aqua */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: aqua;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.5);
+        }
+        /* Style cho nút quay lại */
+        .back-button {
+            background-color: #333;
+            color: aqua;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Video Bài Giảng</h2>
+        <video id="videoPlayer" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video HTML5.
+        </video>
+        
+        <!-- Nút quay lại trang chủ -->
+        <button class="back-button" onclick="window.location.href='index.html'">Quay lại trang chủ</button>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const chapter = getQueryParam("chapter");
+        const lesson = getQueryParam("lesson");
+        const part = getQueryParam("part");
+        const videoType = getQueryParam("videoType");
+
+        let videoUrl = `https://chuvanbien.vn/upload_images/files/Vat_li_12_Moi/Giai_doan_2/I_BO_KNTT/Chuong_${chapter}/Bai_${lesson}/`;
+        
+        if (videoType === "A_Li_thuyet") {
+            videoUrl += `A_Li_thuyet/Phan_${part}.mp4?q=720P`;
+        } else if (videoType === "B_Dinh_tinh_Dinh_luong_Thuc_hanh_Thuc_te") {
+            videoUrl += `B_Dinh_tinh_Dinh_luong_Thuc_hanh_Thuc_te/Phan_${part}.mp4?q=720P`;
+        } else if (videoType === "C_Bai_tap_tu_luyen") {
+            videoUrl += `C_Bai_tap_tu_luyen/Cau_${part}.mp4?q=720P`;
+        }
+
+        document.getElementById("videoSource").src = videoUrl;
+        document.getElementById("videoPlayer").load();
+    </script>
+</body>
+</html>
