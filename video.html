@@ -53,7 +53,7 @@
         <h2>Video Bài Giảng</h2>
         <video id="videoPlayer" controls>
             <source id="videoSource" src="" type="video/mp4">
-            Trình duyệt của bạn không hỗ trợ video HTML5.
+            TRÌNH THAM CHIẾU BÀI GIẢNG BEDU .
         </video>
         
         <!-- Nút quay lại trang chủ -->
@@ -68,12 +68,12 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-
+    
         const chapter = getQueryParam("chapter");
         const lesson = getQueryParam("lesson");
-        const part = parseInt(getQueryParam("part")); // Chuyển đổi thành số nguyên
+        const part = parseInt(getQueryParam("part"));
         const videoType = getQueryParam("videoType");
-
+    
         let videoUrl = `https://chuvanbien.vn/upload_images/files/Vat_li_12_Moi/Giai_doan_2/I_BO_KNTT/Chuong_${chapter}/Bai_${lesson}/`;
         
         if (videoType === "A_Li_thuyet") {
@@ -83,15 +83,21 @@
         } else if (videoType === "C_Bai_tap_tu_luyen") {
             videoUrl += `C_Bai_tap_tu_luyen/Cau_${part}.mp4?q=720P`;
         }
-
+    
+        const videoPlayer = document.getElementById("videoPlayer");
         document.getElementById("videoSource").src = videoUrl;
-        document.getElementById("videoPlayer").load();
-
+        videoPlayer.load();
+        videoPlayer.muted = true;
+        videoPlayer.autoplay = true;
+        videoPlayer.play().catch((error) => {
+            console.warn("Không thể tự động phát video:", error);
+        });
+    
         // Điều hướng tới bài tiếp theo
         document.getElementById("nextButton").onclick = function() {
-            const nextPart = part + 1; // Tăng phần lên 1
+            const nextPart = part + 1;
             const nextUrl = `video.html?chapter=${chapter}&lesson=${lesson}&part=${nextPart}&videoType=${videoType}`;
-            window.location.href = nextUrl; // Điều hướng tới URL mới
+            window.location.href = nextUrl;
         };
     </script>
 </body>
