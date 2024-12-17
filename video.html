@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xem Video Bài Giảng - Giáng sinh</title>
     <style>
-        /* Cài đặt nền đen và chữ màu aqua */
         body {
             font-family: Arial, sans-serif;
             background-color: #000;
@@ -32,8 +31,7 @@
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.5);
         }
-        /* Style cho nút quay lại và nút tiếp theo */
-        .back-button, .next-button {
+        .button {
             background-color: #333;
             color: aqua;
             border: none;
@@ -42,9 +40,16 @@
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
+            display: inline-block;
         }
-        .back-button:hover, .next-button:hover {
+        .button:hover {
             background-color: #555;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -53,14 +58,14 @@
         <h2>Video Bài Giảng</h2>
         <video id="videoPlayer" controls>
             <source id="videoSource" src="" type="video/mp4">
-            TRÌNH THAM CHIẾU BÀI GIẢNG BEDU .
+            Trình duyệt của bạn không hỗ trợ thẻ video. Vui lòng nâng cấp!
         </video>
         
-        <!-- Nút quay lại trang chủ -->
-        <button class="back-button" onclick="window.location.href='index.html'">Quay lại trang chủ</button>
-        
-        <!-- Nút điều hướng tới bài tiếp theo -->
-        <button class="next-button" id="nextButton">Bài Tiếp Theo</button>
+        <div class="button-container">
+            <button class="button" onclick="window.location.href='index.html'">Quay lại trang chủ</button>
+            <button class="button" id="downloadButton">Tải bài tập</button>
+            <button class="button" id="nextButton">Bài tiếp theo</button>
+        </div>
     </div>
 
     <script>
@@ -68,14 +73,21 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-    
-        const chapter = getQueryParam("chapter");
-        const lesson = getQueryParam("lesson");
-        const part = parseInt(getQueryParam("part"));
-        const videoType = getQueryParam("videoType");
-    
-        let videoUrl = `https://chuvanbien.vn/upload_images/files/Vat_li_12_Moi/Giai_doan_2/I_BO_KNTT/Chuong_${chapter}/Bai_${lesson}/`;
         
+        // Lấy thông tin từ URL hoặc gán mặc định
+        const chapter = getQueryParam("chapter") || "1";
+        const lesson = getQueryParam("lesson") || "1";
+        let part = parseInt(getQueryParam("part")) || 0; // Bắt đầu từ 0 nếu không có
+        const videoType = getQueryParam("videoType") || "A_Li_thuyet";
+
+        // Kiểm tra videoType hợp lệ, nếu không thì gán mặc định
+        const validVideoTypes = ["A_Li_thuyet", "B_Dinh_tinh_Dinh_luong_Thuc_hanh_Thuc_te", "C_Bai_tap_tu_luyen"];
+        if (!validVideoTypes.includes(videoType)) {
+            alert("Loại video không hợp lệ! Đang sử dụng video mặc định.");
+        }
+        
+        let videoUrl = `https://chuvanbien.vn/upload_images/files/Vat_li_12_Moi/Giai_doan_2/I_BO_KNTT/Chuong_${chapter}/Bai_${lesson}/`;
+
         if (videoType === "A_Li_thuyet") {
             videoUrl += `A_Li_thuyet/Phan_${part}.mp4?q=720P`;
         } else if (videoType === "B_Dinh_tinh_Dinh_luong_Thuc_hanh_Thuc_te") {
@@ -83,16 +95,48 @@
         } else if (videoType === "C_Bai_tap_tu_luyen") {
             videoUrl += `C_Bai_tap_tu_luyen/Cau_${part}.mp4?q=720P`;
         }
-    
+
+        // Xử lý video
         const videoPlayer = document.getElementById("videoPlayer");
-        document.getElementById("videoSource").src = videoUrl;
-        videoPlayer.load();
-        videoPlayer.muted = true;
-        videoPlayer.autoplay = true;
-        videoPlayer.play().catch((error) => {
-            console.warn("Không thể tự động phát video:", error);
-        });
-    
+        const videoSource = document.getElementById("videoSource");
+
+        function loadVideo() {
+            videoSource.src = videoUrl;
+            videoPlayer.load();
+            
+            // Kiểm tra nếu trình phát video không hoạt động
+            videoPlayer.onloadeddata = function () {
+                videoPlayer.muted = true;
+                videoPlayer.autoplay = true;
+                videoPlayer.play().catch((error) => {
+                    console.warn("Không thể tự động phát video:", error);
+                });
+            };
+
+            videoPlayer.onerror = function () {
+                alert("Không thể tải video. Vui lòng kiểm tra URL đầu vào!");
+            };
+        }
+
+        loadVideo();
+
+        // Tạo URL tải bài tập PDF theo loại video
+        let pdfType = "";
+        if (videoType === "C_Bai_tap_tu_luyen") {
+            pdfType = "File_BT_tu_luyen";
+        } else if (videoType === "B_Dinh_tinh_Dinh_luong_Thuc_hanh_Thuc_te") {
+            pdfType = "File_BT_mau";
+        }
+
+        const pdfUrl = `https://chuvanbien.vn/upload_images/files/Vat_li_12_Moi/Giai_doan_2/I_BO_KNTT/Chuong_${chapter}/${pdfType}/Bai_${lesson}.pdf`;
+        document.getElementById("downloadButton").onclick = function() {
+            if (pdfType) {
+                window.open(pdfUrl, "_blank");
+            } else {
+                alert("Không có bài tập cho loại video này!");
+            }
+        };
+
         // Điều hướng tới bài tiếp theo
         document.getElementById("nextButton").onclick = function() {
             const nextPart = part + 1;
