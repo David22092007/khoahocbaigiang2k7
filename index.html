@@ -1,139 +1,135 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tra cứu Video Bài Giảng - Giáng sinh</title>
+    <title>Tra cứu Video Bài Giảng - Tết Nguyên Đán</title>
     <style>
-        /* Cài đặt nền đen và chữ màu aqua */
         body {
             font-family: Arial, sans-serif;
-            background-color: #000;
-            color: aqua;
-            overflow: hidden;
+            background-color: #ffefdb;
+            color: #8b0000;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
             position: relative;
         }
+
         .container {
             width: 400px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
-            z-index: 10; /* Đảm bảo form nằm trên hoa tuyết */
-            position: relative;
-        }
-        h2 {
             text-align: center;
-            color: aqua;
         }
+
+        h2 {
+            color: #c30000;
+        }
+
         label {
             margin-top: 10px;
             font-weight: bold;
-            color: aqua;
+            color: #c30000;
         }
-        input, select, button {
+
+        input,
+        select,
+        button {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
             margin-bottom: 15px;
             border-radius: 5px;
-            border: 1px solid #333;
+            border: 1px solid #8b0000;
             font-size: 16px;
-            background-color: #333;
-            color: aqua;
-        }
-        button {
-            background-color: aqua;
-            color: black;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #00ffff;
         }
 
-        /* Hiệu ứng hoa tuyết */
-        .snowflake {
+        button {
+            background-color: #c30000;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d63230;
+        }
+
+        .falling {
             position: fixed;
             top: -10px;
             font-size: 1em;
-            color: aqua;
-            opacity: 0.8;
+            color: #f99f32;
+            opacity: 0.9;
             animation: fall linear infinite;
             pointer-events: none;
         }
+
         @keyframes fall {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100vh); }
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
         }
 
-        /* Hiệu ứng rung lắc mạnh cho ông già Noel */
-        .icon-shake {
+        #lantern {
             position: absolute;
-            animation: shake 0.5s infinite alternate;
-            pointer-events: none;
-        }
-        @keyframes shake {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(5px, -5px) rotate(2deg); }
-        }
-
-        /* Hiệu ứng xoay qua lại 180 độ cho người tuyết */
-        .icon-snowman-spin {
-            position: absolute;
-            animation: spin 5s infinite alternate;
-            pointer-events: none;
-        }
-        @keyframes spin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(180deg); }
-        }
-
-        /* Hiệu ứng xoay qua lại cho cây thông như con lắc đơn */
-        .icon-spin {
-            position: absolute;
-            animation: swing 5s infinite ease-in-out;
-            pointer-events: none;
-        }
-        @keyframes swing {
-            0% { transform: rotate(45deg); }
-            50% { transform: rotate(-45deg); }
-            100% { transform: rotate(45deg); }
-        }
-
-        /* Vị trí của các hình ảnh trang trí */
-        #santa {
-            top: 0px; /* Hạ ông già Noel xuống thêm */
-            left: 45%;
-            transform: translateX(-50%);
-            width: 160px;
-        }
-        #snowman {
-            bottom: 10%;
+            top: 10%;
             right: 5%;
-            width: 150px;
+            width: 120px;
+            animation: swing 3s infinite ease-in-out;
         }
-        #christmasTree {
+
+        #peachFlower {
+            position: absolute;
             bottom: 10%;
             left: 5%;
-            width: 180px;
+            width: 120px;
+            animation: rotate 5s infinite linear;
+        }
+
+        @keyframes swing {
+            0% {
+                transform: rotate(15deg);
+            }
+
+            50% {
+                transform: rotate(-15deg);
+            }
+
+            100% {
+                transform: rotate(15deg);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Hình ảnh trang trí -->
-    <img src="santa.jpg" alt="Ông già Noel" id="santa" class="icon-shake">
-    <img src="snow_man.jpg" alt="Người tuyết" id="snowman" class="icon-snowman-spin"> <!-- Áp dụng hiệu ứng xoay -->
-    <img src="chrimas_tree.jpg" alt="Cây thông Noel" id="christmasTree" class="icon-spin">
+    <img src="lantern.jpg" alt="Đèn lồng" id="lantern">
+    <img src="peach_blossom.jpg" alt="Hoa đào" id="peachFlower">
 
     <!-- Form tra cứu video -->
     <div class="container">
         <h2>Tra cứu Video Bài Giảng</h2>
-        
         <label for="chapter">Chương Số:</label>
         <input type="number" id="chapter" min="1" placeholder="Nhập số chương (1, 2, 3,...)">
 
@@ -153,37 +149,33 @@
         <button onclick="openVideoPage()">Xem Video</button>
     </div>
 
-    <!-- Hiệu ứng hoa tuyết -->
+    <!-- Hiệu ứng rơi hoa -->
     <script>
-        // Giới hạn số lượng hoa tuyết trên màn hình
-        const MAX_SNOWFLAKES = 50;
-        let snowflakes = [];
+        const MAX_FLOWERS = 50;
+        let flowers = [];
 
-        function createSnowflake() {
-            if (snowflakes.length >= MAX_SNOWFLAKES) return; // Giới hạn số lượng hoa tuyết
+        function createFallingFlower() {
+            if (flowers.length >= MAX_FLOWERS) return;
 
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.innerText = '❄️';
+            const flower = document.createElement('div');
+            flower.classList.add('falling');
+            flower.innerText = '🌸';
 
-            snowflake.style.left = Math.random() * window.innerWidth + 'px';
-            snowflake.style.fontSize = Math.random() * 15 + 10 + 'px';
-            snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
+            flower.style.left = Math.random() * window.innerWidth + 'px';
+            flower.style.fontSize = Math.random() * 20 + 15 + 'px';
+            flower.style.animationDuration = Math.random() * 3 + 5 + 's';
 
-            document.body.appendChild(snowflake);
-            snowflakes.push(snowflake);
+            document.body.appendChild(flower);
+            flowers.push(flower);
 
-            // Xóa hoa tuyết khi hoàn thành animation
-            snowflake.addEventListener('animationend', () => {
-                snowflake.remove();
-                snowflakes = snowflakes.filter(flake => flake !== snowflake);
+            flower.addEventListener('animationend', () => {
+                flower.remove();
+                flowers = flowers.filter(f => f !== flower);
             });
         }
 
-        // Tạo hoa tuyết cách nhau mỗi 100ms
-        setInterval(createSnowflake, 100);
+        setInterval(createFallingFlower, 150);
 
-        // Điều hướng đến trang video.html khi nhấn nút
         function openVideoPage() {
             const chapter = document.getElementById("chapter").value;
             const lesson = document.getElementById("lesson").value;
@@ -194,4 +186,5 @@
         }
     </script>
 </body>
+
 </html>
